@@ -6,4 +6,18 @@
     body{
         @apply text-white bg-slate-950;
     }
+
+    button{
+        @apply hover:scale-110 transition-all duration-100
+    }
+}
+
+@layer utilities{
+    .btn{
+        @apply px-4 py-2 text-sm font-bold text-white capitalize bg-red-600 border-red-600  rounded-xl;
+    }
+
+    .btn-danger{
+        @apply text-white bg-red-600 border-red-600
+    }
 }
