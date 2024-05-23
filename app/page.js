@@ -1,3 +1,9 @@
 export default function Home() {
-  return <h1 className="text-2xl font-bold">hello world!!</h1>
+  return <header>
+    {/* User Info - user section */}
+    <div>
+      {/* image of usep */}
+      
+    </div>
+  </header>
 }
