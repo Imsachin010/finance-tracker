@@ -18,6 +18,10 @@ Finance Tracker is an advanced web application designed for managing personal fi
 - **Database:** Firestore
 - **Styling:** Tailwind CSS
 
+## Interface 
+
+![expense tracker](https://github.com/Imsachin010/finance-tracker/assets/97721592/7de8d9a2-2e9f-4409-a418-3e6379ecbc38)
+
 ## Installation
 
 Use the package manager [npm](https://www.npmjs.com/) to install the required dependencies for the Finance Tracker app.
