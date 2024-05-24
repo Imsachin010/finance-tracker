@@ -22,7 +22,7 @@
     }
     
     .btn-primary{
-        @apply border text-green-500 bg-slate-800 border-slate-800
+        @apply border text-green-500 bg-slate-800 border-white
     }
     .btn-primary-outline{
         @apply border border-lime-400 text-white bg-transparent

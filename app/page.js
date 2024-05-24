@@ -37,11 +37,13 @@ const DUMMY_EXPENSES = [
 ]
 export default function Home() {
 
-const [modelIsopen, setModelIsopen] = useState(true);
+const [ShowAddIncModel, setShowAddIncomeModel] = useState(false);
   return (
     <>
-      {/* Model */}
-      <Model show={modelIsopen} onClose={setModelIsopen}> Hello </Model>
+      {/* Add income Model */}
+      <Model show={ShowAddIncModel} onClose={setShowAddIncomeModel}>
+        
+      </Model>
       <main className="container max-w-2xl px-4 mx-auto">
         <section className="py-3">
           <small className="text-gray-300 text-md">Available Balance</small>
@@ -51,9 +53,9 @@ const [modelIsopen, setModelIsopen] = useState(true);
 
         <section className="flex item-center gap-2 py-3">
           <button 
-          onClick={ () => {setModelIsopen(true)}} className="btn btn-primary">+ Income</button>
+          onClick={ () => {}} className="btn btn-primary">+ Income</button>
           <button 
-          onClick={ () => {setModelIsopen(true)}} className="btn btn-primary-outline">+ Expenses</button>
+          onClick={ () => {setShowAddIncomeModel(true)}} className="btn btn-primary-outline">- Expenses</button>
         </section>
 
         {/* Expenses */}
