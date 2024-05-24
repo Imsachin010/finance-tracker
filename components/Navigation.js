@@ -16,7 +16,7 @@ function Nav(){
       </div>
 
       {/* username */}
-      <small>Hii, sachin</small>
+      <small>Hii, Sachin</small>
     </div>
     {/* right side of Navigaton */}
      <nav className="flex items-center gap-2">
