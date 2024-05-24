@@ -20,4 +20,11 @@
     .btn-danger{
         @apply text-white bg-red-600 border-red-600
     }
+    
+    .btn-primary{
+        @apply border text-green-500 bg-slate-800 border-slate-800
+    }
+    .btn-primary-outline{
+        @apply border border-lime-400 text-white bg-transparent
+    }
 }
