@@ -1,30 +1,34 @@
+"use client"; // ixes the chart problem from client side
 import {currencyFormatter} from "@/lib/utils";
 import ExpenseCat from "@/components/ExpenseCat";
+import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
+import { Doughnut } from "react-chartjs-2";
 
+ChartJS.register(ArcElement, Tooltip, Legend);
 // creating a Dummy data
 const DUMMY_EXPENSES = [
   {
     id: 1,
     title: "Food",
-    amount: 2000,
+    total: 2000,
     color: "#44ff00"
   },
   {
     id: 2,
     title: "Rent",
-    amount: 5000,
+    total: 5000,
     color: "#44ff"
   },
   {
     id: 3,
     title: "Travel",
-    amount: 10000,
+    total: 10000,
     color: "#45ff90"
   },
   {
     id: 4,
     title: "entertainment",
-    amount: 1000,
+    total: 1000,
     color: "#660ff0"
   },
 ]
@@ -51,10 +55,28 @@ export default function Home() {
             key={expense.id}
             title={expense.title}
             color={expense.color}
-            amount={expense.amount}
+            total={expense.total}
           />
          ))
         }
+      </div>
+    </section>
+    {/* chart section */}
+    <section className="py-4">
+      <h3 className="text-2xl font-bold">Stats</h3>
+      <div className="
+      w-1/2 mx-auto">
+        <Doughnut data={{
+          labels: DUMMY_EXPENSES.map(expense => expense.title),
+          datasets: [{
+            label: "Expense",
+            data: DUMMY_EXPENSES.map(expense => expense.total),  // numerical data
+            backgroundColor: DUMMY_EXPENSES.map(expense => expense.color),
+            borderColor: ['#fff'],
+            borderWidth: 2,
+
+          }]
+        }}/>
       </div>
     </section>
   </main>

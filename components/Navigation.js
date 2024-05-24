@@ -19,9 +19,9 @@ function Nav(){
       <small>Hii, Sachin</small>
     </div>
     {/* right side of Navigaton */}
-     <nav className="flex items-center gap-2">
+     <nav className="flex items-center gap-4">
         <div>
-          <IoMdStats className="text-2xl"/> 
+          <IoMdStats className="text-3xl"/> 
         </div>
         <div>
           <button className="btn btn-danger">Sign Out</button>
