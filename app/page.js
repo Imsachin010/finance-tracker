@@ -42,7 +42,25 @@ const [ShowAddIncModel, setShowAddIncomeModel] = useState(false);
     <>
       {/* Add income Model */}
       <Model show={ShowAddIncModel} onClose={setShowAddIncomeModel}>
-        
+        <form className="input-group">
+          <div className="input-group">
+            <label htmlFor="amount">Income Amount</label>
+            <input 
+            type="number" 
+            min={0.01} 
+            step={.01} 
+            placeholder="Enter the income amount"
+            required/>
+          </div>
+          <div className="input-group">
+            <label htmlFor="amount">Description</label>
+            <input
+            name="description"
+            type="text" 
+            placeholder="Enter the description" required/>
+          </div>
+          <button type="submit" className="btn btn-primary">Add entry</button>
+        </form>
       </Model>
       <main className="container max-w-2xl px-4 mx-auto">
         <section className="py-3">
