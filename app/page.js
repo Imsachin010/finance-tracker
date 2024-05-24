@@ -5,7 +5,11 @@ import Model from "@/components/Model";
 import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
 import { Doughnut } from "react-chartjs-2";
 // to use logic open/close Modal we import it
-import {useState} from 'react';
+import {useState,useRef, useEffect} from 'react'; // use state to store the state of the model, useRef to get the value of the input field & useEffect for data fetching
+
+//firebase
+import {db} from "@/lib/firebase";
+import{collection, addDoc, getDocs, doc} from "firebase/firestore";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 // creating a Dummy data
@@ -36,17 +40,55 @@ const DUMMY_EXPENSES = [
   },
 ]
 export default function Home() {
-
+const [income, setIncome] = useState([]); // to store the income
 const [ShowAddIncModel, setShowAddIncomeModel] = useState(false);
+const amountRef = useRef(); // amount reference
+const descRef = useRef(); // to get the value of description
+
+//handler function of "Add Entry"
+const addInchandler = (e) => {
+  e.preventDefault(); // a built in function to prevent the refreshing of form, during submission
+  const newiIncome = {
+    amount: amountRef.current.value,
+    description: descRef.current.value,
+    createdAt: new Date(),
+  };
+};
+  // using firebase
+  const collectionRef = collection(db, "income");
+  try {
+    const docsnap =addDoc(collectionRef, newiIncome)  //adddoc return a promise, await creates async
+  } catch (error) {
+    console.error(error.message);
+  }
+  
+  useEffect(() => {
+    const getincomeData = async () => {
+    // fetching data from firebase
+    collection(db, "income")
+    const docSnap = await getDocs(collectionRef)
+    const data = docSnap.docs.map(doc => {
+      return {
+        id: doc.id,
+        ...doc.data(),
+        createdAt:new Date(doc.data().createdAt.toMillis()),
+      };
+    });
+    setIncome(data);
+  };
+    getincomeData();
+  }, []);
   return (
     <>
       {/* Add income Model */}
       <Model show={ShowAddIncModel} onClose={setShowAddIncomeModel}>
-        <form className="input-group">
+        <form onSubmit={addInchandler} className="input-group">
           <div className="input-group">
             <label htmlFor="amount">Income Amount</label>
             <input 
-            type="number" 
+            type="number"
+            name="amount"
+            ref={amountRef} 
             min={0.01} 
             step={.01} 
             placeholder="Enter the income amount"
@@ -56,24 +98,41 @@ const [ShowAddIncModel, setShowAddIncomeModel] = useState(false);
             <label htmlFor="amount">Description</label>
             <input
             name="description"
+            ref={descRef}
             type="text" 
             placeholder="Enter the description" required/>
           </div>
           <button type="submit" className="btn btn-primary">Add entry</button>
         </form>
+        <div className="input-group mt-6">
+          <h3 className="text-2xl font-bold">Income History</h3>
+          
+          {income.map((i) => {
+            return (
+              <div key={i.id}>
+                <div>
+                  <p className="font-semibold">{i.description}</p>
+                  <small className="text-xs">{i.createdAt.toISOString()}</small>
+                </div>
+                <p className="flex items-center gap-2">{currencyFormatter(i.amount)}
+                </p>
+              </div>
+            )
+          })}
+        </div>
       </Model>
       <main className="container max-w-2xl px-4 mx-auto">
         <section className="py-3">
           <small className="text-gray-300 text-md">Available Balance</small>
 
-          <h2 className="text-2xl font-bold text-white">{currencyFormatter(89000)}</h2>
+          <h2 className="text-2xl font-bold text-white">{currencyFormatter(100000)}</h2>
         </section>
 
         <section className="flex item-center gap-2 py-3">
           <button 
-          onClick={ () => {}} className="btn btn-primary">+ Income</button>
+          onClick={ () => {setShowAddIncomeModel(true)}} className="btn btn-primary">+ Income</button>
           <button 
-          onClick={ () => {setShowAddIncomeModel(true)}} className="btn btn-primary-outline">- Expenses</button>
+          onClick={ () => {}} className="btn btn-primary-outline">+ Expenses</button>
         </section>
 
         {/* Expenses */}
@@ -113,3 +172,4 @@ const [ShowAddIncModel, setShowAddIncomeModel] = useState(false);
     </>
   );   
 }
+
