@@ -4,16 +4,30 @@ import ExpenseCat from "@/components/ExpenseCat";
 import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
 import { Doughnut } from "react-chartjs-2";
 // to use logic open/close Modal we import it
-import {useState, useContext} from 'react'; // use state to store the state of the model, useRef to get the value of the input field & useEffect for data fetching
+import {useState,useEffect,useContext} from 'react'; // use state to store the state of the model, useRef to get the value of the input field & useEffect for data fetching
 import {financeContext} from "@/lib/store/financeContext"
 import AddincomeModel from '@/components/Modals/AddincomeModel'
+import AddexpenseModel from "@/components/Modals/AddExpModel";
 // Chart representation of the data
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 
 export default function Home() {
   const [ShowAddIncModel, setShowAddIncomeModel] = useState(false);
-  const {expenses} = useContext(financeContext);
+  const [ShowAddexpenseModel, setShowAddExpenseModel] = useState(false);
+  const [balance, setBalance] = useState(0);
+  const {expenses, income} = useContext(financeContext);
+
+  useEffect(() => 
+  {
+    const newbalance = income.reduce((total, i) => {
+      return total + i.amount;
+    }, 0) - 
+    expenses.reduce((total, e) => {
+      return total + e.amount;
+    }, 0);
+    setBalance(newbalance);
+  }, [expenses,income]);
   return (
     <>
       {/* Add income Model */}
@@ -22,18 +36,23 @@ export default function Home() {
       onClose={setShowAddIncomeModel}
       // income={income} // But this is not the solution, we have to go through context API, whenever state changes globally th e values could be updated 
       />
+      {/* Ad expenses Model */}
+      <AddexpenseModel 
+      show={ShowAddexpenseModel}
+      onClose={setShowAddExpenseModel}
+      />
       <main className="container max-w-2xl px-4 mx-auto">
         <section className="py-3">
           <small className="text-gray-300 text-md">Available Balance</small>
 
-          <h2 className="text-2xl font-bold text-white">{currencyFormatter(100000)}</h2>
+          <h2 className="text-2xl font-bold text-white">{currencyFormatter(balance)}</h2>
         </section>
 
         <section className="flex item-center gap-2 py-3">
           <button 
           onClick={ () => {setShowAddIncomeModel(true)}} className="btn btn-primary">+ Income</button>
           <button 
-          onClick={ () => {}} className="btn btn-primary-outline">+ Expenses</button>
+          onClick={ () => {setShowAddExpenseModel(true)}} className="btn btn-primary-outline">+ Expenses</button>
         </section>
 
         {/* Expenses */}

@@ -16,8 +16,8 @@ function AddIncomeModal ({show, onClose}) {
     {
         e.preventDefault(); // a built in function to prevent the refreshing of form, during submission
         const newIncome = {
-            amount: amountRef.current.value,
-            description: descRef.current.value,
+            amount: +amountRef.current.value,
+            description: descRef.current.value, 
             createdAt: new Date(),
         };
         
@@ -25,11 +25,10 @@ function AddIncomeModal ({show, onClose}) {
           await addIncomeitem(newIncome);
           // after adding entries the data will be clear from form
           descRef.current.value = "";
-          amountRef.current.value="";
+          amountRef.current.value = "";
         } catch (error){
           console.log(error.message)
         }
-        
     };
     
     // craeting income Handler
