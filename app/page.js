@@ -4,44 +4,16 @@ import ExpenseCat from "@/components/ExpenseCat";
 import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
 import { Doughnut } from "react-chartjs-2";
 // to use logic open/close Modal we import it
-import {useState} from 'react'; // use state to store the state of the model, useRef to get the value of the input field & useEffect for data fetching
-
+import {useState, useContext} from 'react'; // use state to store the state of the model, useRef to get the value of the input field & useEffect for data fetching
+import {financeContext} from "@/lib/store/financeContext"
 import AddincomeModel from '@/components/Modals/AddincomeModel'
 // Chart representation of the data
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-// creating a Dummy data
-const DUMMY_EXPENSES = [
-  {
-    id: 1,
-    title: "Food",
-    total: 12000,
-    color: "#44ff00"
-  },
-  {
-    id: 2,
-    title: "Rent",
-    total: 5000,
-    color: "#44ff"
-  },
-  {
-    id: 3,
-    title: "Travel",
-    total: 10000,
-    color: "#45ff90"
-  },
-  {
-    id: 4,
-    title: "entertainment",
-    total: 3000,
-    color: "#660ff0"
-  },
-]
-
 
 export default function Home() {
   const [ShowAddIncModel, setShowAddIncomeModel] = useState(false);
-  
+  const {expenses} = useContext(financeContext);
   return (
     <>
       {/* Add income Model */}
@@ -68,7 +40,7 @@ export default function Home() {
         <section className="py-6">
           <h3 className="text-2xl font-bold">My Expenses</h3>
           <div className="flex flex-col gap-4 mt-6">
-            {DUMMY_EXPENSES.map((expense) => (
+            {expenses.map((expense) => (
               <ExpenseCat
                 key={expense.id}
                 title={expense.title}
@@ -86,11 +58,11 @@ export default function Home() {
           <div className="
           w-1/2 mx-auto">
             <Doughnut data={{
-              labels: DUMMY_EXPENSES.map(expense => expense.title),
+              labels: expenses.map(expense => expense.title),
               datasets: [{
                 label: "Expense",
-                data: DUMMY_EXPENSES.map(expense => expense.total),  // numerical data
-                backgroundColor: DUMMY_EXPENSES.map(expense => expense.color),
+                data: expenses.map(expense => expense.total),  // numerical data
+                backgroundColor: expenses.map(expense => expense.color),
                 borderColor: ['#fff'],
                 borderWidth: 2,
 
