@@ -44,7 +44,6 @@ const DUMMY_EXPENSES = [
 export default function Home() {
 
   const [income, setIncome] = useState([]); // to store the income
-  console.log(income)
   const [ShowAddIncModel, setShowAddIncomeModel] = useState(false);
   const amountRef = useRef(); // amount reference
   const descRef = useRef(); // to get the value of description
@@ -62,6 +61,14 @@ const addInchandler = async (e) => {
   const collectionRef = collection(db, "income")
   try {
     const docsnap = await addDoc(collectionRef, newIncome);  //adddoc return a promise, await creates async
+    setIncome(prevState => {
+      return [
+      ...prevState,
+      {
+        id: docsnap.id,
+        ...newIncome
+      }]
+    })
   } catch (error) {
     console.log(error.message);
   }};
@@ -114,7 +121,7 @@ const addInchandler = async (e) => {
           
           {income.map((i) => {
             return (
-              <div key={i.id}>
+              <div className="flex justify-between item-center" key={i.id}>
                 <div>
                   <p className="font-semibold">{i.description}</p>
                   <small className="text-xs">{i.createdAt.toISOString()}</small>
