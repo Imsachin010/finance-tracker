@@ -9,8 +9,12 @@ import {useState,useRef, useEffect} from 'react'; // use state to store the stat
 
 //firebase
 import {db} from "@/lib/firebase";
-import{collection, addDoc, getDocs, doc} from "firebase/firestore";
+import{collection, addDoc, getDocs, doc, deleteDoc} from "firebase/firestore";
 
+//Icons
+import {FaRegTrashAlt} from 'react-icons/fa'
+
+// Chart representation of the data
 ChartJS.register(ArcElement, Tooltip, Legend);
 // creating a Dummy data
 const DUMMY_EXPENSES = [
@@ -73,6 +77,20 @@ const addInchandler = async (e) => {
     console.log(error.message);
   }};
   
+  // craeting income Handler
+  const delIncomeentryHandler = async (incomeId) =>{
+    const doc_ref = doc(db, "income", incomeId);
+    try {
+      await deleteDoc(doc_ref);
+      setIncome(prevState => {
+        return prevState.filter((i) => i.id !== incomeId)
+      })
+    } catch (error){
+      console.log(error.message);
+    }
+    
+  };
+
   useEffect(() => {
     const getincomeData = async () => {
     // fetching data from firebase
@@ -127,6 +145,9 @@ const addInchandler = async (e) => {
                   <small className="text-xs">{i.createdAt.toISOString()}</small>
                 </div>
                 <p className="flex items-center gap-2">{currencyFormatter(i.amount)}
+                <button onClick={() => {delIncomeentryHandler(i.id)}}>
+                  <FaRegTrashAlt/>
+                </button>
                 </p>
               </div>
             )
