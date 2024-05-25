@@ -39,45 +39,50 @@ const DUMMY_EXPENSES = [
     color: "#660ff0"
   },
 ]
+
+
 export default function Home() {
-const [income, setIncome] = useState([]); // to store the income
-const [ShowAddIncModel, setShowAddIncomeModel] = useState(false);
-const amountRef = useRef(); // amount reference
-const descRef = useRef(); // to get the value of description
+
+  const [income, setIncome] = useState([]); // to store the income
+  console.log(income)
+  const [ShowAddIncModel, setShowAddIncomeModel] = useState(false);
+  const amountRef = useRef(); // amount reference
+  const descRef = useRef(); // to get the value of description
 
 //handler function of "Add Entry"
-const addInchandler = (e) => {
+const addInchandler = async (e) => {
   e.preventDefault(); // a built in function to prevent the refreshing of form, during submission
-  const newiIncome = {
+  const newIncome = {
     amount: amountRef.current.value,
     description: descRef.current.value,
     createdAt: new Date(),
-  };
-};
+    };
+  
   // using firebase
-  const collectionRef = collection(db, "income");
+  const collectionRef = collection(db, "income")
   try {
-    const docsnap =addDoc(collectionRef, newiIncome)  //adddoc return a promise, await creates async
+    const docsnap = await addDoc(collectionRef, newIncome);  //adddoc return a promise, await creates async
   } catch (error) {
-    console.error(error.message);
-  }
+    console.log(error.message);
+  }};
   
   useEffect(() => {
     const getincomeData = async () => {
     // fetching data from firebase
-    collection(db, "income")
+    const collectionRef = collection(db, "income")
     const docSnap = await getDocs(collectionRef)
     const data = docSnap.docs.map(doc => {
       return {
         id: doc.id,
         ...doc.data(),
-        createdAt:new Date(doc.data().createdAt.toMillis()),
+        createdAt: new Date(),
       };
     });
     setIncome(data);
   };
     getincomeData();
   }, []);
+
   return (
     <>
       {/* Add income Model */}
@@ -104,7 +109,7 @@ const addInchandler = (e) => {
           </div>
           <button type="submit" className="btn btn-primary">Add entry</button>
         </form>
-        <div className="input-group mt-6">
+        <div className="flex flex-col gap-4 mt-6">
           <h3 className="text-2xl font-bold">Income History</h3>
           
           {income.map((i) => {
