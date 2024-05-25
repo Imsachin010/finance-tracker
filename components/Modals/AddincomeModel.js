@@ -1,9 +1,6 @@
-import { useRef, useEffect } from "react"
+import { useRef, useEffect, useContext } from "react"
 import Model from "@/components/Model";
-
-//firebase
-import {db} from "@/lib/firebase";
-import{collection, addDoc, getDocs, doc, deleteDoc} from "firebase/firestore";
+import {financeContext} from "@/lib/store/financeContext"
 
 //Icons
 import {FaRegTrashAlt} from 'react-icons/fa'
@@ -12,6 +9,7 @@ import { currencyFormatter } from "@/lib/utils";
 function AddIncomeModal ({show, onClose}) {
     const amountRef = useRef(); // amount reference
     const descRef = useRef(); // to get the value of description
+    const {income,addIncomeitem, removeIncomeitem} = useContext(financeContext)
     
     //handler function of "Add Entry"
     const addInchandler = async (e) => 
@@ -22,57 +20,27 @@ function AddIncomeModal ({show, onClose}) {
             description: descRef.current.value,
             createdAt: new Date(),
         };
-    
-        // using firebase
-        const collectionRef = collection(db, "income")
-        try {
-        const docsnap = await addDoc(collectionRef, newIncome);  //adddoc return a promise, await creates async
-        setIncome(prevState => {
-            return [
-            ...prevState,
-            {
-            id: docsnap.id,
-            ...newIncome
-            }]
-        });
-        // after adding entries the data will be clear from form
-        descRef.current.value = "";
-        amountRef.current.value="";
-        } catch (error) {
-        console.log(error.message);
+        
+        try{
+          await addIncomeitem(newIncome);
+          // after adding entries the data will be clear from form
+          descRef.current.value = "";
+          amountRef.current.value="";
+        } catch (error){
+          console.log(error.message)
         }
+        
     };
     
     // craeting income Handler
-    const delIncomeentryHandler = async (incomeId) =>{
-      const doc_ref = doc(db, "income", incomeId);
-      try {
-        await deleteDoc(doc_ref);
-        setIncome(prevState => {
-          return prevState.filter((i) => i.id !== incomeId)
-        })
-      } catch (error){
-        console.log(error.message);
-      }      
-    };
-
-    
-    useEffect(() => {
-        const getincomeData = async () => {
-        // fetching data from firebase
-        const collectionRef = collection(db, "income")
-        const docSnap = await getDocs(collectionRef)
-        const data = docSnap.docs.map(doc => {
-        return {
-            id: doc.id,
-            ...doc.data(),
-            createdAt: new Date(),
-        };
-        });
-        setIncome(data);
-    };
-        getincomeData();
-    }, []);
+    const delIncomeentryHandler = async (incomeId) => 
+    {
+        try {
+            await removeIncomeitem(incomeId)
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
 
     return (
         <Model show={show} onClose={onClose}>

@@ -40,12 +40,8 @@ const DUMMY_EXPENSES = [
 
 
 export default function Home() {
-
-  const [income, setIncome] = useState([]); // to store the income
-  console.log(income)
   const [ShowAddIncModel, setShowAddIncomeModel] = useState(false);
   
-
   return (
     <>
       {/* Add income Model */}
