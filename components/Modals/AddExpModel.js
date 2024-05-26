@@ -4,12 +4,12 @@ import { financeContext } from "@/lib/store/financeContext";
 import {v4 as uuidv4} from "uuid";
 
 function AddexpenseModel ({show, onClose}){
-    const {expenses, addExpenseItem} = useContext(financeContext);
+    const { expenses, addExpenseItem} = useContext(financeContext);
     const [expenseAmount, setExpenseAmount] = useState ("");
     const [selectCategory, setSelectcategory] = useState (null);
 
     const addExpensehandler = async () => {
-        const expense = expenses.find(e => {
+        const expense = expenses.find((e) => {
             return e.id === selectCategory;
         })
         const newExpense = {
@@ -21,7 +21,7 @@ function AddexpenseModel ({show, onClose}){
                 {
                     amount: +expenseAmount,
                     createdAt: new Date(),
-                    id:uuidv4
+                    id: uuidv4(),
                 },
             ],
         };
