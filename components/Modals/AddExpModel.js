@@ -4,11 +4,11 @@ import { financeContext } from "@/lib/store/financeContext";
 import {v4 as uuidv4} from "uuid";
 
 function AddexpenseModel ({show, onClose}){
-    const {expenses} = useContext(financeContext);
+    const {expenses, addExpenseItem} = useContext(financeContext);
     const [expenseAmount, setExpenseAmount] = useState ("");
     const [selectCategory, setSelectcategory] = useState (null);
 
-    const addExpensehandler = () => {
+    const addExpensehandler = async () => {
         const expense = expenses.find(e => {
             return e.id === selectCategory;
         })
@@ -25,9 +25,16 @@ function AddexpenseModel ({show, onClose}){
                 },
             ],
         };
-        setExpenseAmount("")
-        setSelectcategory(null)
-        onClose();
+
+        try {
+            await addExpenseItem(selectCategory, newExpense);
+            console.log(newExpense)
+            setExpenseAmount("")
+            setSelectcategory(null)
+            onClose();
+        } catch (error) {
+            console.log(error.message)
+        }
     }
     return <Model show={show} onClose={onClose}>
         <div className="flex flex-col gap-4">

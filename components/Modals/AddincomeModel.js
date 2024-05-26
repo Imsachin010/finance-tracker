@@ -12,7 +12,7 @@ function AddIncomeModal ({show, onClose}) {
     const {income,addIncomeitem, removeIncomeitem} = useContext(financeContext)
     
     //handler function of "Add Entry"
-    const addInchandler = async (e) => 
+    const addInchandler = async () => 
     {
         e.preventDefault(); // a built in function to prevent the refreshing of form, during submission
         const newIncome = {
