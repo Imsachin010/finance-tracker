@@ -59,14 +59,12 @@ export default function Home() {
         <section className="py-6">
           <h3 className="text-2xl font-bold">My Expenses</h3>
           <div className="flex flex-col gap-4 mt-6">
-            {expenses.map((expense) => (
-              <ExpenseCat
+            {expenses.map((expense) => {
+              return (<ExpenseCat
                 key={expense.id}
-                title={expense.title}
-                color={expense.color}
-                total={expense.total}
-              />
-            ))
+                expense={expense}
+              />);
+            })
             }
           </div>
         </section>
