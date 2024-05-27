@@ -3,7 +3,7 @@ import { IoMdStats } from "react-icons/io";
 
 function Nav(){
     return (
-        <header className="container max-w-2xl px-4 py-4 mx-auto">
+        <header className="container max-w-2xl px-6 py-6 mx-auto">
 
     <div className="flex items-center justify-between">
     {/* User Info - user section */}
@@ -11,12 +11,12 @@ function Nav(){
       {/* image of usep */}
       <div className="h-[40px] w-[40px] rounded-full overflow-hidden">
         <img className="w-full h-full object-cover"
-        src="./assets/profile.jpg" alt="Profile picture" 
+        src="https://thispersondoesnotexist.com/image" alt="Profile picture" 
         />
       </div>
 
       {/* username */}
-      <small>Hii, Sachin</small>
+      <small>Hii, Sachin!</small>
     </div>
     {/* right side of Navigaton */}
      <nav className="flex items-center gap-4">
