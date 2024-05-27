@@ -6,8 +6,10 @@ import { Doughnut } from "react-chartjs-2";
 // to use logic open/close Modal we import it
 import {useState,useEffect,useContext} from 'react'; // use state to store the state of the model, useRef to get the value of the input field & useEffect for data fetching
 import {financeContext} from "@/lib/store/financeContext"
+import { authContext } from "@/lib/store/authContext";
 import AddincomeModel from '@/components/Modals/AddincomeModel'
 import AddexpenseModel from "@/components/Modals/AddExpModel";
+import Signin from "@/components/signin";
 // Chart representation of the data
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -17,6 +19,8 @@ export default function Home() {
   const [ShowAddexpenseModel, setShowAddExpenseModel] = useState(false);
   const [balance, setBalance] = useState(0);
   const {expenses, income} = useContext(financeContext);
+
+  const {user, loading} = useContext(authContext);
 
   useEffect(() => 
   {
@@ -28,6 +32,10 @@ export default function Home() {
     }, 0);
     setBalance(newbalance);
   }, [expenses,income]);
+
+  if(!user){
+    return <Signin/>
+  }
   return (
     <>
       {/* Add income Model */}
