@@ -9,7 +9,8 @@ import {financeContext} from "@/lib/store/financeContext"
 import { authContext } from "@/lib/store/authContext";
 import AddincomeModel from '@/components/Modals/AddincomeModel'
 import AddexpenseModel from "@/components/Modals/AddExpModel";
-import Signin from "@/components/signin";
+import Signin from "@/components/Signin";
+
 // Chart representation of the data
 ChartJS.register(ArcElement, Tooltip, Legend);
 
