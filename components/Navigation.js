@@ -3,10 +3,10 @@ import { useContext } from "react";
 import { authContext } from "@/lib/store/authContext";
 
 function Nav(){
-    const {user, loading, Logout} = useContext(authContext);
+    const {user,loading, Logout} = useContext(authContext);
 
     return (
-        <header className="container max-w-2xl px-6 py-6 mx-auto">
+      <header className="container max-w-2xl px-6 py-6 mx-auto">
 
     <div className="flex items-center justify-between">
     {/* User Info - user section */}

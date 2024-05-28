@@ -21,7 +21,7 @@ export default function Home() {
   const [balance, setBalance] = useState(0);
   const {expenses, income} = useContext(financeContext);
 
-  const {user, loading} = useContext(authContext);
+  const {user} = useContext(authContext);
 
   useEffect(() => 
   {
@@ -92,7 +92,7 @@ export default function Home() {
                 borderColor: ['#fff'],
                 borderWidth: 2,
 
-              }]
+              },],
             }}/>
           </div>
         </section>

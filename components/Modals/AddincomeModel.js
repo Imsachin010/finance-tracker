@@ -1,15 +1,18 @@
 import { useRef, useEffect, useContext } from "react"
 import Model from "@/components/Model";
 import {financeContext} from "@/lib/store/financeContext"
+import { authContext } from "@/lib/store/authContext";
 
 //Icons
 import {FaRegTrashAlt} from 'react-icons/fa'
 
 import { currencyFormatter } from "@/lib/utils";
+
 function AddIncomeModal ({show, onClose}) {
     const amountRef = useRef(); // amount reference
     const descRef = useRef(); // to get the value of description
     const {income,addIncomeitem, removeIncomeitem} = useContext(financeContext)
+    const {user} = useContext(authContext)
     
     //handler function of "Add Entry"
     const addInchandler = async (e) => 
@@ -19,6 +22,7 @@ function AddIncomeModal ({show, onClose}) {
             amount: +amountRef.current.value,
             description: descRef.current.value, 
             createdAt: new Date(),
+            uid: user.uid
         };
         
         try{
@@ -51,7 +55,7 @@ function AddIncomeModal ({show, onClose}) {
             name="amount"
             ref={amountRef} 
             min={0.01} 
-            step={.01} 
+            step={0.01} 
             placeholder="Enter the income amount"
             required/>
           </div>
@@ -77,7 +81,7 @@ function AddIncomeModal ({show, onClose}) {
                   <small className="text-xs">{i.createdAt.toISOString()}</small>
                 </div>
                 <p className="flex items-center gap-2">{currencyFormatter(i.amount)}
-                <button onClick={() => {delIncomeentryHandler(i.id)}}>
+                <button onClick={() => {delIncomeentryHandler(i.id);}}>
                   <FaRegTrashAlt/>
                 </button>
                 </p>
