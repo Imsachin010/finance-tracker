@@ -1,8 +1,11 @@
+"use client"
 import { IoMdStats } from "react-icons/io";
 import { useContext } from "react";
 import { authContext } from "@/lib/store/authContext";
+import React from "react";
 
 function Nav(){
+    
     const {user,loading, Logout} = useContext(authContext);
 
     return (
