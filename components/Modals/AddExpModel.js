@@ -2,6 +2,7 @@ import { useState, useContext, useRef } from "react";
 import Model from "../Model";
 import { financeContext } from "@/lib/store/financeContext";
 import {v4 as uuidv4} from "uuid";
+import {toast} from "react-toastify";
 
 function AddexpenseModel ({show, onClose}){
     const { expenses, addExpenseItem, addCategory} = useContext(financeContext);
@@ -46,6 +47,7 @@ function AddexpenseModel ({show, onClose}){
             await addCategory({title, color, total:0});
             
             setShowAddExpense(false);
+            toast.succes("Category Created!")
         }catch(error){
             console.log(error.message);
             throw error
