@@ -4,14 +4,16 @@ import { financeContext } from "@/lib/store/financeContext";
 //Icons
 import {FaRegTrashAlt} from 'react-icons/fa'
 import { useContext } from "react";
+import { toast } from "react-toastify"
 
 function ViewExpenseModel({show, onClose, expense}) {
     const {deleteExpItem, deleteExpCategory} = useContext(financeContext)
     const deleteExpenseHandler = async () => {
         try{
             await deleteExpCategory(expense.id)
+            toast.success("Expense category deleted!")
         }catch(error){
-            throw error
+            toast.error(error.message)
         }
     }
     const delExpenseitemHandler = async (item) => {
@@ -24,8 +26,9 @@ function ViewExpenseModel({show, onClose, expense}) {
                 total: expense.total - item.amount,
             };
             await deleteExpItem(updatedexpense, expense.id)
+            toast.success("Expense item deleted!")
         } catch(error){
-            throw error
+            toast.error(error.message)
         }
     }
     return (

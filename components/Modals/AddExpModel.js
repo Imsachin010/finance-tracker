@@ -36,8 +36,10 @@ function AddexpenseModel ({show, onClose}){
             setExpenseAmount("")
             setSelectcategory(null)
             onClose();
+            toast.success("Expense item added!")
         } catch (error) {
             console.log(error.message)
+            toast.error(error.message)
         }
     }
     const addCategoryHandler = async () => {
@@ -47,10 +49,10 @@ function AddexpenseModel ({show, onClose}){
             await addCategory({title, color, total:0});
             
             setShowAddExpense(false);
-            toast.succes("Category Created!")
+            toast.success("Category Created!")
         }catch(error){
             console.log(error.message);
-            throw error
+            toast.error(error.message)
         }
     }
 

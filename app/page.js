@@ -80,6 +80,7 @@ export default function Home() {
 
         {/* chart section */}
         <section className="py-4">
+          <a id="stats"/>
           <h3 className="text-2xl font-bold">Stats</h3>
           <div className="
           w-1/2 mx-auto">

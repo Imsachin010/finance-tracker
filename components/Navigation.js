@@ -33,7 +33,9 @@ function Nav(){
     {user && !loading && (
         <nav className="flex items-center gap-4">
           <div>
-            <IoMdStats className="text-3xl"/> 
+            <a href="#stats">
+              <IoMdStats className="text-3xl"/> 
+            </a>
           </div>
           <div>
             <button 

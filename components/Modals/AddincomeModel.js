@@ -3,6 +3,8 @@ import Model from "@/components/Model";
 import {financeContext} from "@/lib/store/financeContext"
 import { authContext } from "@/lib/store/authContext";
 
+import { toast } from "react-toastify"
+
 //Icons
 import {FaRegTrashAlt} from 'react-icons/fa'
 
@@ -30,8 +32,10 @@ function AddIncomeModal ({show, onClose}) {
           // after adding entries the data will be clear from form
           descRef.current.value = "";
           amountRef.current.value = "";
+          toast.success("Income entry added!")
         } catch (error){
           console.log(error.message)
+          toast.error(error.message)
         }
     };
     
@@ -40,8 +44,10 @@ function AddIncomeModal ({show, onClose}) {
     {
         try {
             await removeIncomeitem(incomeId)
+            toast.success("Income entry deleted!")
         } catch (error) {
             console.log(error.message)
+            toast.error(error.message)
         }
     }
 
