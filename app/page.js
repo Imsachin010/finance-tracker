@@ -29,7 +29,7 @@ export default function Home() {
       return total + i.amount;
     }, 0) - 
     expenses.reduce((total, e) => {
-      return total + e.amount;
+      return total + e.total;
     }, 0);
     setBalance(newbalance);
   }, [expenses,income]);
